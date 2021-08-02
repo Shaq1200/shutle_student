@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "794822626923",
+    "firebase_url": "https://shuttle-tracker-c2a87-default-rtdb.firebaseio.com",
+    "project_id": "shuttle-tracker-c2a87",
+    "storage_bucket": "shuttle-tracker-c2a87.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794822626923:android:252a5c92e82f0b74feeb2e",
+        "android_client_info": {
+          "package_name": "com.example.shutle_student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794822626923-3pts3h39d1taltu4vgpqsfkmrk2dr712.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpB6-x1YAqqYcW0xW8T1Uq9DUkrWDhcjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794822626923-3pts3h39d1taltu4vgpqsfkmrk2dr712.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794822626923:android:0c5bc69eee75f235feeb2e",
+        "android_client_info": {
+          "package_name": "com.example.shuttle_driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794822626923-3pts3h39d1taltu4vgpqsfkmrk2dr712.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpB6-x1YAqqYcW0xW8T1Uq9DUkrWDhcjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794822626923-3pts3h39d1taltu4vgpqsfkmrk2dr712.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:794822626923:android:5dd617c22b8df7eefeeb2e",
+        "android_client_info": {
+          "package_name": "noobtechnologies.myapp.shuttleapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "794822626923-3pts3h39d1taltu4vgpqsfkmrk2dr712.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpB6-x1YAqqYcW0xW8T1Uq9DUkrWDhcjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "794822626923-3pts3h39d1taltu4vgpqsfkmrk2dr712.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
