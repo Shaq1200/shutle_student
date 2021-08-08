@@ -21,11 +21,12 @@ class _pickUp_screenState extends State<pickUp_screen> {
             Container(
               constraints: BoxConstraints.expand(),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    colors: [Colors.yellow,Colors.green,Colors.lightGreen,Colors.yellowAccent]
-                ),
+                color: Colors.white,
+                // gradient: LinearGradient(
+                //     begin: Alignment.bottomLeft,
+                //     end: Alignment.topRight,
+                //     colors: [Colors.yellow,Colors.green,Colors.lightGreen,Colors.yellowAccent]
+                // ),
               ),
             ),
 
@@ -49,7 +50,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                   ),
                 ),
                 Text("Pick-up Location",style: TextStyle(
-                  fontWeight: FontWeight.w500, fontSize: 18,
+                  fontWeight: FontWeight.w500, fontSize: 18, color: Color(0xff005c29)
                 ),),
 
                 Padding(
@@ -62,9 +63,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                       maxHeight: size.height*0.6
                     ),
                     decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.white,
-                        ),
+
                         borderRadius: BorderRadius.circular(15)
                     ),
                     child: Padding(
@@ -72,8 +71,22 @@ class _pickUp_screenState extends State<pickUp_screen> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            Card(borderOnForeground: true,
-                              color: Colors.white12,
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: size.height*0.15,
+                                minHeight: size.height*0.15,
+                                maxWidth: size.width*0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.grey.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(15),
+                                image: DecorationImage(
+                                  colorFilter: ColorFilter.mode(Colors.green.withOpacity(0.3), BlendMode.difference),
+                                  fit: BoxFit.fitWidth,
+                                  image: AssetImage("assets/locations/pharmShuttle.jpeg",
+                                  ),
+                                )
+                              ),
                               child: ListTile(enableFeedback: true,
                                 focusColor: Colors.red,
                                 title: Text('Pharmacy',textScaleFactor: 1,
@@ -93,7 +106,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Color(0xff026609),
                               child: ListTile(
                                 title: Text('Casely Hayford',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -104,7 +117,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Color(0xff026609),
                               child: ListTile(
                                 title: Text('Business School',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -113,7 +126,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Color(0xff026609),
                               child: ListTile(
                                 title: Text('Hall 7',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -122,7 +135,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Color(0xff026609),
                               child: ListTile(
                                 title: Text('Brunei',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -131,7 +144,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Color(0xff026609),
                               child: ListTile(
                                 title: Text('Commercial Area',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -140,7 +153,7 @@ class _pickUp_screenState extends State<pickUp_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Color(0xff026609),
                               child: ListTile(
                                 title: Text('Library',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -162,9 +175,9 @@ class _pickUp_screenState extends State<pickUp_screen> {
               left: -10,
               child: RawMaterialButton(
                 elevation: 2.0,
-                  fillColor: Colors.transparent,
+                  fillColor: Color(0xff005c29),
                   shape: CircleBorder(),
-                  child: Icon(Icons.arrow_back, color: Colors.black,),
+                  child: Icon(Icons.arrow_back, color: Colors.white,),
                   onPressed: (){
                   Navigator.pop(context);
                   }),

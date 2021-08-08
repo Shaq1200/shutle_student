@@ -29,14 +29,8 @@ class _destination_screenState extends State<destination_screen> {
       body: Stack(
           children:<Widget>[
             Container(
+              color: Colors.white,
               constraints: BoxConstraints.expand(),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.topRight,
-                    colors: [Colors.yellow,Colors.green,Colors.lightGreen,Colors.yellowAccent]
-                ),
-              ),
             ),
             Column(
               children: [
@@ -69,19 +63,13 @@ class _destination_screenState extends State<destination_screen> {
                     constraints: BoxConstraints(
                         maxHeight: size.height*0.6
                     ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      borderRadius: BorderRadius.circular(15)
-                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
                             Card(borderOnForeground: true,
-                              color: Colors.white12,
+                              color: Colors.green,
                               elevation: 2.0,
                               child: ListTile(enableFeedback: true,
                                 focusColor: Colors.red,
@@ -100,7 +88,7 @@ class _destination_screenState extends State<destination_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Colors.green,
                               child: ListTile(
                                 title: Text('Casely Hayford',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -109,7 +97,7 @@ class _destination_screenState extends State<destination_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Colors.green,
                               child: ListTile(
                                 title: Text('Business School',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -118,7 +106,7 @@ class _destination_screenState extends State<destination_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Colors.green,
                               child: ListTile(
                                 title: Text('Hall 7',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -127,7 +115,7 @@ class _destination_screenState extends State<destination_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Colors.green,
                               child: ListTile(
                                 title: Text('Brunei',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -136,7 +124,7 @@ class _destination_screenState extends State<destination_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Colors.green,
                               child: ListTile(
                                 title: Text('Commercial Area',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -145,7 +133,7 @@ class _destination_screenState extends State<destination_screen> {
                               ),
                             ),
                             Card(
-                              color: Colors.white12,
+                              color: Colors.green,
                               child: ListTile(
                                 title: Text('Library',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
@@ -167,7 +155,7 @@ class _destination_screenState extends State<destination_screen> {
               left: -10,
               child: RawMaterialButton(
                   elevation: 2.0,
-                  fillColor: Colors.transparent,
+                  fillColor: Color(0xff77fc03),
                   shape: CircleBorder(),
                   child: Icon(Icons.arrow_back, color: Colors.black,),
                   onPressed: (){

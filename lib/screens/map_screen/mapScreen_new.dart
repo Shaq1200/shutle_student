@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -77,7 +78,7 @@ class _mapScreen_newState extends State<mapScreen_new> {
 
   //read inital point from database
   void readData() async {
-    ref.child("Bumblebee").once().then((DataSnapshot dataSnapshot) async {
+    ref.child("TestDriver1").once().then((DataSnapshot dataSnapshot) async {
       var keys = await dataSnapshot.value.keys;
       var values = await dataSnapshot.value;
       print(values);
@@ -102,7 +103,6 @@ class _mapScreen_newState extends State<mapScreen_new> {
       _addMarker(LatLng(pick_lat, pick_lng), 'Pick-up Location', pinLocationIcon,);
       _getPolyline(_iniDriver,_pickLocation);
     }
-
     );
   }
 
@@ -115,8 +115,8 @@ class _mapScreen_newState extends State<mapScreen_new> {
       position: position,
     );
     markers[markerId] =marker;
-    setState((){
-    });
+    // setState((){
+    // });
 
   }
 
@@ -148,27 +148,53 @@ class _mapScreen_newState extends State<mapScreen_new> {
 
   Stream<DataSnapshot> getMapData() {
     return ref.onChildChanged.map<DataSnapshot>((event) {
+      DataSnapshot snap = event.snapshot;
+
+
+      setState(() {
+        Set<Marker>.of(markers.values);
+        CameraPosition cPosition = CameraPosition(
+          zoom: 16,
+          tilt: 80,
+          target: LatLng(snap.value['lat'],snap.value['lng']),
+        );
+        mapController.animateCamera(CameraUpdate.newCameraPosition(cPosition));
+      });
       return event.snapshot;
     });
   }
+  // Future<bool> rebuild() async {
+  //   if (!mounted) return false;
+  //
+  //   // if there's a current frame,
+  //   if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
+  //     // wait for the end of that frame.
+  //     await SchedulerBinding.instance.endOfFrame;
+  //     if (!mounted) return false;
+  //   }
+  //
+  //
+  //   return true;
+  // }
 
-  Future<http.Request> calcEta(double pickLat,double pickLng,double destLat, double destLng) async {
+  Future calcEta(double pickLat,double pickLng,double destLat, double destLng) async {
     String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$pickLat,$pickLng&destinations=$destLat,%20$destLng&key=AIzaSyBmM84crn9PX3tybAv5MISVGn8W6VVfSmc";
         http.Response response = await http.get(Uri.parse(url));
     Map values = jsonDecode(response.body);
     eta = values["rows"][0]["elements"][0]["duration"]["text"];
-  }
-  Future<http.Response> calcDistance(double pickLat,double pickLng,double destLat, double destLng) async {
-    double pickLat;
-    double pickLng;
-    double destLat;
-    double destLng;
-    String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$pickLat,$pickLng&destinations=$destLat,$destLng&key=AIzaSyBmM84crn9PX3tybAv5MISVGn8W6VVfSmc";
-    http.Response response = await http.get(Uri.parse(url));
-    Map values = jsonDecode(response.body);
     distance = values["rows"][0]["elements"][0]["distance"]["text"];
-
   }
+  // Future calcDistance(double pickLat,double pickLng,double destLat, double destLng) async {
+  //   double pickLat;
+  //   double pickLng;
+  //   double destLat;
+  //   double destLng;
+  //   String url = "https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=$pickLat,$pickLng&destinations=$destLat,$destLng&key=AIzaSyBmM84crn9PX3tybAv5MISVGn8W6VVfSmc";
+  //   http.Response response = await http.get(Uri.parse(url));
+  //   Map values = jsonDecode(response.body);
+  //   distance = values["rows"][0]["elements"][0]["distance"]["text"];
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -176,25 +202,38 @@ class _mapScreen_newState extends State<mapScreen_new> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
+      SafeArea(
+      child: GoogleMap(
+      initialCameraPosition: _default,
+      myLocationEnabled: false,
+      myLocationButtonEnabled: false,
+      mapType: MapType.normal,
+      zoomGesturesEnabled: true,
+      zoomControlsEnabled: true,
+      onMapCreated: (GoogleMapController controller) {
+        mapController = controller;
+
+      },
+      trafficEnabled: false,
+      markers: Set<Marker>.of(markers.values),
+      polylines: Set<Polyline>.of(polylines.values),
+      ),
+    ),
           StreamBuilder<DataSnapshot>(
               stream: getMapData(),
               builder: (context, snap) {
                 if (snap.hasData) {
                   _addMarker(LatLng(snap.data.value['lat'], snap.data.value['lng']),
                       'Driver Location', busLocationIcon,);
+                  // print(markers);
                   peopleCount = snap.data.value['Count'];
                   busType = snap.data.value['Bus Type'].toString();
                   calcEta(pick_lat, pick_lng, snap.data.value['lat'], snap.data.value['lng']);
-                  calcDistance(pick_lat, pick_lng, snap.data.value['lat'], snap.data.value['lng']);
+                  // calcDistance(pick_lat, pick_lng, snap.data.value['lat'], snap.data.value['lng']);
                   // create a new CameraPosition instance
                   // every time the location changes, so the camera
                   // follows the pin as it moves with an animation
-                  CameraPosition cPosition = CameraPosition(
-                    zoom: 16,
-                    tilt: 80,
-                    target: LatLng(snap.data.value['lat'],snap.data.value['lng']),
-                  );
-                  mapController.animateCamera(CameraUpdate.newCameraPosition(cPosition));
+
                   // markers.add(
                   //   Marker(
                   //     markerId: MarkerId('Driver'),
@@ -203,55 +242,34 @@ class _mapScreen_newState extends State<mapScreen_new> {
                   //   ),
                   // );
                 }
-                return SafeArea(
-                  child: Stack(
-                    children: <Widget>[
-                      GoogleMap(
-                        initialCameraPosition: _default,
-                        myLocationEnabled: false,
-                        myLocationButtonEnabled: false,
-                        mapType: MapType.normal,
-                        zoomGesturesEnabled: false,
-                        zoomControlsEnabled: false,
-                        onMapCreated: (GoogleMapController controller) {
-                          mapController = controller;
-
-                        },
-                        trafficEnabled: false,
-                        markers: Set<Marker>.of(markers.values),
-                        polylines: Set<Polyline>.of(polylines.values),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: size.height*0.04, left: size.width*0.2),
-                        constraints: BoxConstraints(
-                          maxHeight: size.height*0.08,
-                          maxWidth: size.width*0.6,
-                          minWidth: size.width*0.5,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(color:Colors.green),
-                          color: Colors.white30.withOpacity(0.5),
-                          borderRadius: BorderRadius.circular(23)
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text("ETA: $eta"),
-                              VerticalDivider(
-                                color: Colors.black,
-                                thickness: 1.0,
-                              ),
-                              Text("Distance: $distance")
-                            ],
-                          ),
-                        ),
-
-                      )
-                    ]
+                return Container(
+                  margin: EdgeInsets.only(top: size.height*0.04, left: size.width*0.2),
+                  constraints: BoxConstraints(
+                    maxHeight: size.height*0.08,
+                    maxWidth: size.width*0.65,
+                    minWidth: size.width*0.5,
                   ),
+                  decoration: BoxDecoration(
+                      border: Border.all(color:Colors.green),
+                      color: Colors.white30.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(23)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("ETA: $eta"),
+                        VerticalDivider(
+                          color: Colors.black,
+                          thickness: 1.0,
+                        ),
+                        Text("Distance: $distance")
+                      ],
+                    ),
+                  ),
+
                 );
               }),
           Positioned(
@@ -275,11 +293,10 @@ class _mapScreen_newState extends State<mapScreen_new> {
             margin: EdgeInsets.only(left: size.width*0.01, right: size.width*0.01),
             height: size.height*0.08,
             decoration: BoxDecoration(
-              color: Colors.indigo.shade200,
+              color: Color(0xff60d15c),
               // border: Border.all(
               //     color: Colors.black
               // ),
-              boxShadow: [BoxShadow(color: Colors.black, blurRadius: 5)],
               borderRadius: BorderRadius.only(topLeft:Radius.circular(20), topRight: Radius.circular(20))
             ),
             child: Center(
@@ -305,34 +322,37 @@ class _mapScreen_newState extends State<mapScreen_new> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Card(
-                    elevation: 2.0,
-                    child: Container(
-                      constraints: BoxConstraints(
-                        maxHeight: size.height*0.8,
-                        maxWidth: size.width*0.25
-                      ),
-                      margin: EdgeInsets.all(8),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 5.0,left: 5.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.where_to_vote,color: Colors.black,),
-                                  Text("Status",
-                                    style: TextStyle(
-                                        fontSize: 18
-                                    ),),
-                                ],
-                              ),
-                              Text("Active",
-                                style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Card(
+                      elevation: 2.0,
+                      child: Container(
+                        constraints: BoxConstraints(
+                          maxHeight: size.height*0.8,
+                          maxWidth: size.width*0.25
+                        ),
+                        margin: EdgeInsets.all(10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0,left: 5.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.where_to_vote,color: Colors.black,),
+                                    Text("Status",
+                                      style: TextStyle(
+                                          fontSize: 18
+                                      ),),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                Text("Active",
+                                  style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -343,73 +363,79 @@ class _mapScreen_newState extends State<mapScreen_new> {
                   //   child: Divider(thickness: .5,
                   //     color: Colors.black,),
                   // ),
-                  Card(
-                    elevation: 2.0,
-                    child: Container(
-                      constraints: BoxConstraints(
-                          maxHeight: size.height*0.8,
-                          maxWidth: size.width*0.3
-                      ),
-                      margin: EdgeInsets.all(8),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 5.0,left: 5.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Icon(
-                                    Icons.airport_shuttle
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text("Bus Type",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                    ),),
-                                ],
-                              ),
-                              Text("$busType",
-                                style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Card(
+                      elevation: 2.0,
+                      child: Container(
+                        constraints: BoxConstraints(
+                            maxHeight: size.height*0.8,
+                            maxWidth: size.width*0.3
+                        ),
+                        margin: EdgeInsets.all(10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0,left: 5.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Icon(
+                                      Icons.airport_shuttle
+                                    ),
+                                    // SizedBox(
+                                    //   width: 5,
+                                    // ),
+                                    Text("Bus Type",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                      ),),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                Text("$busType",
+                                  style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Card(
-                    elevation: 2.0,
-                    child: Container(
-                      constraints: BoxConstraints(
-                          maxHeight: size.height*0.8,
-                          maxWidth: size.width*0.4
-                      ),
-                      margin: EdgeInsets.all(8),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 5.0,left: 5.0),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.airline_seat_recline_extra_sharp),
-                                  Text("Occupancy",
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                    ),),
-                                ],
-                              ),
-                              Text("$peopleCount/30",
-                                style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic,
+                  Padding(
+                    padding: const EdgeInsets.only(top:8.0),
+                    child: Card(
+                      elevation: 2.0,
+                      child: Container(
+                        constraints: BoxConstraints(
+                            maxHeight: size.height*0.8,
+                            maxWidth: size.width*0.4
+                        ),
+                        margin: EdgeInsets.all(10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 5.0,left: 5.0),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.airline_seat_recline_extra_sharp),
+                                    Text("Occupancy",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                      ),),
+                                  ],
                                 ),
-                              ),
-                            ],
+                                Text("$peopleCount/30",
+                                  style: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500, fontStyle: FontStyle.italic,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -15,7 +15,7 @@ class background extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         elevation: 2.0,
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Color(0xff005c29),
           hoverColor: Colors.grey,
           onPressed: (){
             Navigator.push(context, new MaterialPageRoute(
@@ -24,7 +24,7 @@ class background extends StatelessWidget {
           // icon: Icon(
           //   Icons.arrow_forward, size: 30, color: Colors.black,
           // ),
-      label: Icon(Icons.arrow_forward),
+      label: Icon(Icons.arrow_forward, color: Colors.white,),
         shape: CircleBorder(),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -35,12 +35,7 @@ class background extends StatelessWidget {
             children: <Widget>[
               Container(
                 constraints: BoxConstraints.expand(),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Colors.yellow,Colors.green,Colors.lightGreen,Colors.yellowAccent],
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft)
-                    ),
+                color: Colors.white,
               ),
               Positioned(
                 top: size.height*0.05,
@@ -51,7 +46,10 @@ class background extends StatelessWidget {
                     maxHeight: size.height*0.3,
                   ),
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage("assets/homepic.png"))
+                    image: DecorationImage(
+                        image: AssetImage("assets/homepic.png"),
+                      colorFilter: ColorFilter.mode(Colors.green, BlendMode.dstIn)
+                    )
                   ),
                 ),
               ),

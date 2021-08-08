@@ -68,6 +68,8 @@ flutter:
      - assets/homepic.png
      - assets/pickUp.png
      - assets/destPic.png
+     - assets/locations/pharmShuttle.jpeg
+     - assets/locations/pharmacy_shuttle.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

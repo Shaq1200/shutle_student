@@ -15,7 +15,7 @@ class home extends StatelessWidget {
       child: Text("Plan your journey!",
         textAlign: TextAlign.center ,
         style: TextStyle(
-        color: Colors.black, fontSize: 30.0,
+        color: Color(0xff026609), fontSize: 30.0,
           fontWeight: FontWeight.w500,
       ),),
       ),
