@@ -10,6 +10,8 @@ class pickUp_screen extends StatefulWidget {
   _pickUp_screenState createState() => _pickUp_screenState();
 }
 
+
+
 class _pickUp_screenState extends State<pickUp_screen> {
   double pick_lat, pick_lng;
   @override
@@ -49,18 +51,17 @@ class _pickUp_screenState extends State<pickUp_screen> {
                     ),
                   ),
                 ),
-                Text("Pick-up Location",style: TextStyle(
-                  fontWeight: FontWeight.w500, fontSize: 18, color: Color(0xff005c29)
+                Text("Pick-up Locations",style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: 19, color: Color(0xff005c29)
                 ),),
 
                 Padding(
-                  padding: EdgeInsets.only(top:size.height*0.05,
-                    left: size.width*0.05,
-                    right: size.width*0.05,
+                  padding: EdgeInsets.only(top:size.height*0.03,
+                    left: size.width*0.08,
                   ),
                   child: Container(
                     constraints: BoxConstraints(
-                      maxHeight: size.height*0.6
+                      maxHeight: size.height*0.65
                     ),
                     decoration: BoxDecoration(
 
@@ -81,17 +82,18 @@ class _pickUp_screenState extends State<pickUp_screen> {
                                 color: Colors.grey.withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(15),
                                 image: DecorationImage(
-                                  colorFilter: ColorFilter.mode(Colors.green.withOpacity(0.3), BlendMode.difference),
+                                  colorFilter: ColorFilter.mode(Colors.green.withOpacity(0.3), BlendMode.dstATop),
                                   fit: BoxFit.fitWidth,
-                                  image: AssetImage("assets/locations/pharmShuttle.jpeg",
-                                  ),
+                                  image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/shuttle-tracker-c2a87.appspot.com/o/pharmacy_shuttle.jpg?alt=media&token=62f00bd6-d2d3-47b2-8dfc-4f4c804d9f69"),
+                                  // image: AssetImage("assets/locations/pharmacy_shuttle.jpg",
+                                  // ),
                                 )
                               ),
                               child: ListTile(enableFeedback: true,
                                 focusColor: Colors.red,
                                 title: Text('Pharmacy',textScaleFactor: 1,
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16)
+                                  style: TextStyle(fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold)
                                   ,),
                                 onTap: (){
                                 setState(() {
@@ -105,59 +107,180 @@ class _pickUp_screenState extends State<pickUp_screen> {
                                 },
                               ),
                             ),
-                            Card(
-                              color: Color(0xff026609),
+                            SizedBox(
+                              height: size.height*0.03,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: size.height*0.15,
+                                minHeight: size.height*0.15,
+                                maxWidth: size.width*0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    colorFilter: ColorFilter.mode(Colors.red.withOpacity(0.3), BlendMode.dstATop),
+                                    fit: BoxFit.fitWidth,
+                                    image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/shuttle-tracker-c2a87.appspot.com/o/casleyShuttle.jpg?alt=media&token=d0d60631-1576-4bc9-addf-6ae9d831abea",
+                                    ),
+                                  )
+                              ),
                               child: ListTile(
-                                title: Text('Casely Hayford',textScaleFactor: 1,
+                                title: Text('Casely Hayford',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16)
+                                  style: TextStyle(fontSize: 18,
+                                  color: Colors.black,
+                                    fontWeight: FontWeight.bold
+                                  )
                                   ,),
 
 
                               ),
                             ),
-                            Card(
-                              color: Color(0xff026609),
+                            SizedBox(
+                              height: size.height*0.03,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: size.height*0.15,
+                                minHeight: size.height*0.15,
+                                maxWidth: size.width*0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    colorFilter: ColorFilter.mode(Colors.red.withOpacity(0.3), BlendMode.dstATop),
+                                    fit: BoxFit.fitWidth,
+                                    image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/shuttle-tracker-c2a87.appspot.com/o/business_shuttle.jpg?alt=media&token=9105d53e-9824-42e7-8146-c45a378cdd8e",
+                                    ),
+                                  )
+                              ),
                               child: ListTile(
-                                title: Text('Business School',textScaleFactor: 1,
+                                title: Text('Business School',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16)
+                                  style: TextStyle(fontSize: 18,
+                                  color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  )
                                   ,),
                               ),
                             ),
-                            Card(
-                              color: Color(0xff026609),
+                            SizedBox(
+                              height: size.height*0.03,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: size.height*0.15,
+                                minHeight: size.height*0.15,
+                                maxWidth: size.width*0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(15),
+                                  //TODO: image: DecorationImage(
+                              //       colorFilter: ColorFilter.mode(Colors.red.withOpacity(0.3), BlendMode.dstATop),
+                              //       fit: BoxFit.fitWidth,
+                              //       image: AssetImage("assets/locations/business_shuttle.jpg",
+                              //       ),
+                              //     )
+                              ),
+
                               child: ListTile(
-                                title: Text('Hall 7',textScaleFactor: 1,
+                                title: Text('Hall 7',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16)
+                                  style: TextStyle(fontSize: 18, color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  )
                                   ,),
                               ),
                             ),
-                            Card(
-                              color: Color(0xff026609),
+                            SizedBox(
+                              height: size.height*0.03,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: size.height*0.15,
+                                minHeight: size.height*0.15,
+                                maxWidth: size.width*0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    colorFilter: ColorFilter.mode(Colors.red.withOpacity(0.3), BlendMode.dstATop),
+                                    fit: BoxFit.fitWidth,
+                                    image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/shuttle-tracker-c2a87.appspot.com/o/brunei_shuttle.jpg?alt=media&token=e08963fa-ed16-497a-82d3-ac125b9abd3a",
+                                    ),
+                                  )
+                              ),
+
                               child: ListTile(
-                                title: Text('Brunei',textScaleFactor: 1,
+                                title: Text('Brunei',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16)
+                                  style: TextStyle(fontSize: 18,
+                                  color: Colors.black,
+                                    fontWeight: FontWeight.bold
+                                  )
                                   ,),
                               ),
                             ),
-                            Card(
-                              color: Color(0xff026609),
+                            SizedBox(
+                              height: size.height*0.03,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: size.height*0.15,
+                                minHeight: size.height*0.15,
+                                maxWidth: size.width*0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(15),
+                                  // image: DecorationImage(
+                                  //   colorFilter: ColorFilter.mode(Colors.red.withOpacity(0.3), BlendMode.dstATop),
+                                  //   fit: BoxFit.fitWidth,
+                                  //   image: AssetImage("assets/locations/brunei_shuttle.jpg",
+                                  //   ),
+                                  // )
+                              ),
                               child: ListTile(
-                                title: Text('Commercial Area',textScaleFactor: 1,
+                                title: Text('Commercial Area',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16)
+                                  style: TextStyle(fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold
+                                  )
                                   ,),
                               ),
                             ),
-                            Card(
-                              color: Color(0xff026609),
+                            SizedBox(
+                              height: size.height*0.03,
+                            ),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxHeight: size.height*0.15,
+                                minHeight: size.height*0.15,
+                                maxWidth: size.width*0.8,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  borderRadius: BorderRadius.circular(15),
+                                  image: DecorationImage(
+                                    colorFilter: ColorFilter.mode(Colors.red.withOpacity(0.3), BlendMode.dstATop),
+                                    fit: BoxFit.fitWidth,
+                                    image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/shuttle-tracker-c2a87.appspot.com/o/library_shuttle.jpg?alt=media&token=8497472a-958f-4660-b339-f59bd20d3846",
+                                    ),
+                                  )
+                              ),
                               child: ListTile(
-                                title: Text('Library',textScaleFactor: 1,
+                                title: Text('Library',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(fontSize: 16)
+                                  style: TextStyle(fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold
+                                  )
                                   ,),
                               ),
                             ),

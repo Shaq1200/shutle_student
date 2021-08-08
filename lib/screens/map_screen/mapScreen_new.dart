@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +34,7 @@ class _mapScreen_newState extends State<mapScreen_new> {
   final ref = FirebaseDatabase.instance.reference();
 
   _mapScreen_newState({this.pick_lat, this.pick_lng, this.destination});
+
   @override
   void initState() {
     super.initState();
@@ -210,6 +210,7 @@ class _mapScreen_newState extends State<mapScreen_new> {
       mapType: MapType.normal,
       zoomGesturesEnabled: true,
       zoomControlsEnabled: true,
+      compassEnabled: false,
       onMapCreated: (GoogleMapController controller) {
         mapController = controller;
 
@@ -250,9 +251,9 @@ class _mapScreen_newState extends State<mapScreen_new> {
                     minWidth: size.width*0.5,
                   ),
                   decoration: BoxDecoration(
-                      border: Border.all(color:Colors.green),
+                      border: Border.all(color:Color(0xff005c29),width: 1.5),
                       color: Colors.white30.withOpacity(0.5),
-                      borderRadius: BorderRadius.circular(23)
+                      borderRadius: BorderRadius.circular(20)
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -277,9 +278,9 @@ class _mapScreen_newState extends State<mapScreen_new> {
               top: size.height*0.05,
               child: RawMaterialButton(
                 elevation: 2.0,
-                fillColor: Colors.white,
+                fillColor: Color(0xff005c29),
                 shape: CircleBorder(),
-                child: Icon(Icons.chevron_left, size: 30,color: Colors.black,
+                child: Icon(Icons.chevron_left, size: 30,color: Colors.white,
                 ),
                   onPressed: (){
                     Navigator.pop(context);
