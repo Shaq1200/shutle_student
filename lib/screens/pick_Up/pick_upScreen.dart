@@ -14,6 +14,34 @@ class pickUp_screen extends StatefulWidget {
 
 class _pickUp_screenState extends State<pickUp_screen> {
   double pick_lat, pick_lng;
+
+  @override
+  void initState(){
+    super.initState();
+  }
+ //  final  storeRef = FirebaseStorage.instance;
+ // Future <String> brunei;
+ // Future<String> business;
+ //  Future<String> casley;
+ //  Future<String> library;
+ //  Future<String> pharmacy;
+ //
+ //  Future<void> downloadUrl() async{
+ //    brunei = downloader("brunei_shuttle");
+ //    print("$brunei");
+ //    business = downloader("business_shuttle.jpg");
+ //    casley = downloader("casleyShuttle.jpg");
+ //    library = downloader("library_shuttle.jpg");
+ //    pharmacy = downloader("pharmacy_shuttle.jpg");
+ //
+ //  }
+ //
+ //  Future<String> downloader(String location) async{
+ //    return await storeRef.ref().child("$location").getDownloadURL();
+ //  }
+
+
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

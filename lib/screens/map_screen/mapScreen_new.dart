@@ -40,7 +40,6 @@ class _mapScreen_newState extends State<mapScreen_new> {
     super.initState();
     setCustomMapPin();
     readData();
-
   }
 
   void setCustomMapPin() async {
@@ -77,11 +76,12 @@ class _mapScreen_newState extends State<mapScreen_new> {
 
 
   //read inital point from database
-  void readData() async {
+ Future <void> readData() async {
+
     ref.child("TestDriver1").once().then((DataSnapshot dataSnapshot) async {
       var keys = await dataSnapshot.value.keys;
       var values = await dataSnapshot.value;
-      print(values);
+      print("These are the values: $values");
       for (var key in keys) {
         print(key);
         if (key == 'lat'){
@@ -213,6 +213,7 @@ class _mapScreen_newState extends State<mapScreen_new> {
       compassEnabled: false,
       onMapCreated: (GoogleMapController controller) {
         mapController = controller;
+        print("This is: $_iniLat and $_iniLng");
 
       },
       trafficEnabled: false,
