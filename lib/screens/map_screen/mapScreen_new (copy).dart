@@ -64,62 +64,67 @@ class _mapScreen_newState extends State<mapScreen_new> {
   PolylinePoints polylinePoints = PolylinePoints();
   BitmapDescriptor pinLocationIcon;
   BitmapDescriptor busLocationIcon;
+  double _iniLat;
+  double _iniLng;
   PointLatLng _iniDriver;
   PointLatLng _pickLocation;
   String peopleCount="8";
   String busType="Brunei";
   String eta="0 min";
   String distance="0 km";
-  String busId;
-  double _iniLat;
-  double _iniLng;
   static const String apiKey = 'AIzaSyBmM84crn9PX3tybAv5MISVGn8W6VVfSmc';
 
 
   //read inital point from database
  Future <void> readData() async {
-   _pickLocation =PointLatLng(pick_lat, pick_lng);
-   ref.orderByChild("Bus Type").equalTo("Brunei").once().then((DataSnapshot snap) async {
-     Map<dynamic, dynamic> values = await snap.value;
-     values.forEach((key, value) {
-       _addMarker(LatLng(value["lat"],value["lng"]), value["Bus Id"],busLocationIcon,(){
-         print(value["Bus Id"]);
-         polylines.clear();
-         polylineCoordinates.clear();
-         peopleCount=value["Count"].toString();
-         busId = value["Bus Id"];
-         _iniLat =value["lat"];
-         _iniLng = value["lng"];
-         _iniDriver = PointLatLng(_iniLat, _iniLng);
-         print(_iniDriver);
-         setState(() {
-           calcEta(pick_lat, pick_lng, _iniLat, _iniLng);
-           _getPolyline(_iniDriver,_pickLocation);
-         });
-       });
-     });
-   });
+
+    ref.child("TestDriver1").once().then((DataSnapshot dataSnapshot) async {
+      var keys = await dataSnapshot.value.keys;
+      var values = await dataSnapshot.value;
+      print("These are the values: $values");
+      for (var key in keys) {
+        print(key);
+        if (key == 'lat'){
+          _iniLat =values[key];
+        }
+        else if(key == 'lng'){
+          _iniLng= values[key];
+        }
+        else if (key == 'Type'){
+          busType =values[key];
+        }
+        else if (key == 'Count'){
+          peopleCount =values[key];
+        }
+      }
+      _iniDriver =PointLatLng(_iniLat, _iniLng);
+      _addMarker(LatLng(_iniLat, _iniLng), 'Driver Location', busLocationIcon,);
+      _pickLocation =PointLatLng(pick_lat, pick_lng);
+      _addMarker(LatLng(pick_lat, pick_lng), 'Pick-up Location', pinLocationIcon,);
+      _getPolyline(_iniDriver,_pickLocation);
+    }
+    );
   }
 
 
-  _addMarker(LatLng position, String id, BitmapDescriptor descriptor, VoidCallback function)async{
+  _addMarker(LatLng position, String id, BitmapDescriptor descriptor,)async{
     MarkerId markerId = MarkerId(id);
     Marker marker = Marker(
       markerId: markerId,
       icon: descriptor,
       position: position,
-      onTap: function,
     );
     markers[markerId] =marker;
-    setState((){
-    });
+    // setState((){
+    // });
+
   }
 
   _addPolyline(){
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Colors.green,
+      color: Colors.blue,
       points: polylineCoordinates,
     );
     polylines[id] =polyline;
@@ -144,27 +149,8 @@ class _mapScreen_newState extends State<mapScreen_new> {
   Stream<DataSnapshot> getMapData() {
     return ref.onChildChanged.map<DataSnapshot>((event) {
       DataSnapshot snap = event.snapshot;
-      ref.orderByChild("Bus Type").equalTo("Brunei").once().then(
-              (DataSnapshot snapshot) async{
-                Map<dynamic, dynamic> values = await snap.value;
-                values.forEach((key, value) {
-                  _addMarker(LatLng(value["lat"],value["lng"]), value["Bus Id"],busLocationIcon,(){
-                    print(value["Bus Id"]);
-                    polylines.clear();
-                    polylineCoordinates.clear();
-                    peopleCount=value["Count"].toString();
-                    busId = value["Bus Id"];
-                    _iniLat =value["lat"];
-                    _iniLng = value["lng"];
-                    _iniDriver = PointLatLng(_iniLat, _iniLng);
-                    print(_iniDriver);
-                    setState(() {
-                      _getPolyline(_iniDriver,_pickLocation);
-                    });
-                  });
-                });
 
-              });
+
       setState(() {
         Set<Marker>.of(markers.values);
         CameraPosition cPosition = CameraPosition(
@@ -173,8 +159,6 @@ class _mapScreen_newState extends State<mapScreen_new> {
           target: LatLng(snap.value['lat'],snap.value['lng']),
         );
         mapController.animateCamera(CameraUpdate.newCameraPosition(cPosition));
-        calcEta(pick_lat, pick_lng, _iniLat, _iniLng);
-
       });
       return event.snapshot;
     });
@@ -229,7 +213,8 @@ class _mapScreen_newState extends State<mapScreen_new> {
       compassEnabled: false,
       onMapCreated: (GoogleMapController controller) {
         mapController = controller;
-        _addMarker(LatLng(pick_lat, pick_lng), 'Pick-up Location', pinLocationIcon,null);
+        print("This is: $_iniLat and $_iniLng");
+
       },
       trafficEnabled: false,
       markers: Set<Marker>.of(markers.values),
@@ -240,9 +225,12 @@ class _mapScreen_newState extends State<mapScreen_new> {
               stream: getMapData(),
               builder: (context, snap) {
                 if (snap.hasData) {
-                  // _addMarker(LatLng(snap.data.value['lat'], snap.data.value['lng']),
-                  //     'Driver Location', busLocationIcon,);
+                  _addMarker(LatLng(snap.data.value['lat'], snap.data.value['lng']),
+                      'Driver Location', busLocationIcon,);
                   // print(markers);
+                  peopleCount = snap.data.value['Count'];
+                  busType = snap.data.value['Bus Type'].toString();
+                  calcEta(pick_lat, pick_lng, snap.data.value['lat'], snap.data.value['lng']);
                   // calcDistance(pick_lat, pick_lng, snap.data.value['lat'], snap.data.value['lng']);
                   // create a new CameraPosition instance
                   // every time the location changes, so the camera

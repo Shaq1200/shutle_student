@@ -4,6 +4,7 @@ import 'package:shutle_student/screens/Destination/destination_screen.dart';
 import 'package:shutle_student/screens/Home/home.dart';
 import 'package:shutle_student/screens/map_screen/mapScreen_new.dart';
 import 'package:shutle_student/screens/pick_Up/pick_upScreen.dart';
+import 'package:shutle_student/screens/queryDriver/queryScreen.dart';
 import 'package:shutle_student/screens/splashScreen.dart';
 
 void main(){
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         destination_screen.id: (context) => destination_screen(),
         mapScreen_new.id:(context) => mapScreen_new(),
         splashScreen.id:(context) => splashScreen(),
+        queryScreen.id:(context) => queryScreen(),
       },
       debugShowCheckedModeBanner: false,
     );
